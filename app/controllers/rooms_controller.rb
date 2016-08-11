@@ -21,6 +21,18 @@ class RoomsController < ApplicationController
 end
 
   def start_game
+    @cards = Card.all.sort
+    @room = Room.find_by_id(params[:id])
+    @room.player_1_cards = @cards.last(5)
+    @cards.pop(5)
+    @room.player_2_cards = @cards.last(5)
+    @cards.pop(5)
+    @room.player_3_cards = @cards.last(5)
+    @cards.pop(5)
+    @room.player_4_cards = @cards.last(5)
+    @cards.pop(5)
+    @cards.save
+    @room.save
   end
 
   private
