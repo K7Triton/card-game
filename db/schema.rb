@@ -23,10 +23,6 @@ ActiveRecord::Schema.define(version: 20160811072714) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "player_1"
-    t.integer  "player_2"
-    t.integer  "player_3"
-    t.integer  "player_4"
     t.integer  "player_1_id"
     t.integer  "player_2_id"
     t.integer  "player_3_id"
