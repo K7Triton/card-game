@@ -20,6 +20,9 @@ class RoomsController < ApplicationController
   end
 end
 
+  def start_game
+  end
+
   private
 
   def room_params
