@@ -21,7 +21,7 @@ class RoomsController < ApplicationController
 end
 
   def start_game
-    @cards = Card.all.sort
+    @cards = Card.all.to_a
     @room = Room.find_by_id(params[:id])
     @room.player_1_cards = @cards.last(5)
     @cards.pop(5)
