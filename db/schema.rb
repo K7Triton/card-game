@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 20160811072714) do
     t.integer  "player_2_id"
     t.integer  "player_3_id"
     t.integer  "player_4_id"
-    t.integer  "player_1_cards"
-    t.integer  "player_2_cards"
-    t.integer  "player_3_cards"
-    t.integer  "player_4_cards"
-    t.integer  "bank"
-    t.integer  "otboi"
+    t.string   "player_1_cards"
+    t.string   "player_2_cards"
+    t.string   "player_3_cards"
+    t.string   "player_4_cards"
+    t.string   "bank"
+    t.string   "otboi"
   end
 
   create_table "users", force: :cascade do |t|

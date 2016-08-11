@@ -4,11 +4,11 @@ class AddColumnsToRooms < ActiveRecord::Migration[5.0]
     add_column :rooms, :player_2_id,    :integer
     add_column :rooms, :player_3_id,    :integer
     add_column :rooms, :player_4_id,    :integer
-    add_column :rooms, :player_1_cards, :integer
-    add_column :rooms, :player_2_cards, :integer
-    add_column :rooms, :player_3_cards, :integer
-    add_column :rooms, :player_4_cards, :integer
-    add_column :rooms, :bank,           :integer
-    add_column :rooms, :otboi,          :integer
+    add_column :rooms, :player_1_cards, :string
+    add_column :rooms, :player_2_cards, :string
+    add_column :rooms, :player_3_cards, :string
+    add_column :rooms, :player_4_cards, :string
+    add_column :rooms, :bank,           :string
+    add_column :rooms, :otboi,          :string
   end
 end
