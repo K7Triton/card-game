@@ -6,16 +6,17 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find_by_id(params[:id])
-    if @room.player_1_id == nil
-      @room.update_attribute(:player_1_id, current_user.id)
-    elsif @room.player_2_id == nil
-      @room.update_attribute(:player_2_id, current_user.id)
-    elsif @room.player_3_id == nil
-      @room.update_attribute(:player_3_id, current_user.id)
-    else
-      @room.update_attribute(:player_4_id, current_user.id)
+    unless [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].include? current_user.id
+      if @room.player_1_id == nil
+        @room.update_attribute(:player_1_id, current_user.id)
+      elsif @room.player_2_id == nil
+        @room.update_attribute(:player_2_id, current_user.id)
+      elsif @room.player_3_id == nil
+        @room.update_attribute(:player_3_id, current_user.id)
+      else
+        @room.update_attribute(:player_4_id, current_user.id)
+      end
     end
-
 
   end
 
@@ -32,23 +33,17 @@ class RoomsController < ApplicationController
 end
 
   def start_game
-<<<<<<< HEAD
-    @cards = Card.all.to_a
-=======
-    @cards = Card.all
->>>>>>> b319a67fc81f3c57e17cc593e5868b0c7b0eb189
     @room = Room.find_by_id(params[:id])
-    @room.player_1_cards = @cards.last(5)
-    @cards.pop(5)
-    @room.player_2_cards = @cards.last(5)
-    @cards.pop(5)
-    @room.player_3_cards = @cards.last(5)
-    @cards.pop(5)
-    @room.player_4_cards = @cards.last(5)
-    @cards.pop(5)
-    @cards.save
+    @bank = (1..36).to_a.sample(36)
+    @room.player_1_cards = @bank.pop(5)
+    @room.player_2_cards = @bank.pop(5)
+    @room.player_3_cards = @bank.pop(5)
+    @room.player_4_cards = @bank.pop(5)
+    @room.bank = @bank.to_s
     @room.save
   end
+
+
 
   private
 
