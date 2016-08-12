@@ -1,18 +1,20 @@
-<h1>Room</h1>
+<div class="room">
 Комната номер: <%= @room.user_id %>
-
-<div>
-  <p>Player 1 : <%= @room.player_1_id %> Карти :  <%= @room.player_1_cards%></p>
 </div>
-<div>
+
+<div class="player_1">
+  <p>Player 1 : <%= @room.player_1_id %> Карти :  <%= @room.player_1_cards %></p>
+</div>
+<div class="player_2">
   <p>Player 2 : <%= @room.player_2_id %> Карти :  <%= @room.player_2_cards %></p>
 </div>
-<div>
+</div>
+<div class="koloda">
+  <p>Koloda: <%= @room.bank %>
+</div>
+<div class="player_3">
   <p>Player 3 : <%= @room.player_3_id %> Карти :  <%= @room.player_3_cards %></p>
 </div>
-<div>
+<div class="player_4">
   <p>Player 4 : <%= @room.player_4_id %> Карти :  <%= @room.player_4_cards %></p>
-</div>
-<div>
-  <p>Koloda: <%= @room.bank %>
 </div>
