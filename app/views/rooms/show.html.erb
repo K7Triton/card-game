@@ -1,4 +1,19 @@
 <h1>Room</h1>
-<%= @room.user_id %>
-<%= Card.all.each do |f| %>
-<% end %>
+Комната номер: <%= @room.user_id %>
+
+<div>
+  <p>Player 1 : <%= @room.player_1_id %></p>
+</div>
+<div>
+  <p>Player 2 : <%= @room.player_2_id %></p>
+</div>
+<div>
+  <p>Player 3 : <%= @room.player_3_id %></p>
+</div>
+<div>
+  <p>Player 4 : <%= @room.player_4_id %></p>
+</div>
+
+<div>
+ <%= link_to 'Start game', start_game_path %>
+</div>
