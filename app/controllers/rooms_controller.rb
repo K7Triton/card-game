@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  before_action :auth_user
 
   def index
     @rooms = Room.all
@@ -43,6 +44,11 @@ end
     @room.save
   end
 
+  def auth_user
+    unless current_user
+      redirect_to new_user_session_path
+    end
+  end
 
 
   private
