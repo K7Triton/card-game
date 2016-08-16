@@ -18,6 +18,8 @@
   <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
 <% end -%>
 
+<div class="google">
 <%- if devise_mapping.omniauthable? %>
-  <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path%>
+  <%= link_to "Sign in with Google",user_google_oauth2_omniauth_authorize_path %>
+</div>
 <% end -%>

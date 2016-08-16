@@ -1,5 +1,8 @@
 <h1>Rooms List</h1>
+<%= link_to 'Create new room', new_room_path %><br>
 
+
+<h2>Existing Rooms</h2>
 <% @rooms.each do |r| %>
 <%= r.name %>
 <%= link_to 'Join room', room_path({id: r.id}) %><br>
