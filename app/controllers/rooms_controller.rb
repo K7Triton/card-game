@@ -18,7 +18,6 @@ class RoomsController < ApplicationController
         @room.update_attribute(:player_4_id, current_user.id)
       end
     end
-
   end
 
   def new
@@ -28,20 +27,41 @@ class RoomsController < ApplicationController
   def create
     @room = Room.create(room_params)
     @room.user_id = current_user.id
-    if @room.save
-      redirect_to root_path
+    if @room.save!
+      redirect_to @room
+    end
   end
-end
 
   def start_game
     @room = Room.find_by_id(params[:id])
-    @bank = (1..36).to_a.sample(36)
-    @room.player_1_cards = @bank.pop(5)
-    @room.player_2_cards = @bank.pop(5)
-    @room.player_3_cards = @bank.pop(5)
-    @room.player_4_cards = @bank.pop(5)
-    @room.bank = @bank.to_s
+    unless @room.start?
+      @bank = (1..36).to_a.sample(36)
+      @room.player_1_cards = @bank.pop(5).to_s.chomp(']').delete '['
+      @room.player_2_cards = @bank.pop(5).to_s.chomp(']').delete '['
+      @room.player_3_cards = @bank.pop(5).to_s.chomp(']').delete '['
+      @room.player_4_cards = @bank.pop(5).to_s.chomp(']').delete '['
+      @room.bank = @bank.to_s.chomp(']').delete '['
+      @room.start = true
+      @room.save
+    end
+  end
+
+  def move
+    @room = Room.find_by_id(params[:id])
+    @room.otboi = params[:card]
+    if    @room.player_1 == current_user
+          @room.player_1_cards.split(',').delete params[:card]
+    elsif @room.player_2 == current_user
+          @room.player_2_cards.split(',').delete params[:card]
+    elsif @room.player_3 == current_user
+          @room.player_3_cards.split(',').delete params[:card]
+    elsif @room.player_4 == current_user
+          @room.player_4_cards = @room.player_4_cards.split(',').delete_if {|x| x ==  params[:card] }
+          @room.player_4_cards = @room.player_4_cards.to_s.chomp(']').delete '['
+    end
     @room.save
+
+    redirect_to :back
   end
 
   def auth_user

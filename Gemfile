@@ -22,6 +22,7 @@ gem 'devise'
 gem 'redis'
 gem "omniauth-google-oauth2"
 
+gem 'bootstrap-sass'
 
 ########################
 

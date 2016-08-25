@@ -1,20 +1,73 @@
-<div class="room">
-Комната номер: <%= @room.user_id %>
-</div>
+<div class="container-fluid">
+  <div class="room">
+    <p>Room #: <%= @room.id %> || Creator:  <%= @room.user.email %>
+  </div>
 
-<div class="player_1">
-  <p>Player 1 : <%= @room.player_1_id %> Карти :  <%= @room.player_1_cards %></p>
-</div>
-<div class="player_2">
-  <p>Player 2 : <%= @room.player_2_id %> Карти :  <%= @room.player_2_cards %></p>
-</div>
-</div>
-<div class="koloda">
-  <p>Koloda: <%= @room.bank %>
-</div>
-<div class="player_3">
-  <p>Player 3 : <%= @room.player_3_id %> Карти :  <%= @room.player_3_cards %></p>
-</div>
-<div class="player_4">
-  <p>Player 4 : <%= @room.player_4_id %> Карти :  <%= @room.player_4_cards %></p>
+  <div class="row">
+  <div class="col-md-6">
+    <% if @room.player_1.present? %>
+        <% if @room.player_1 == current_user %>
+              <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.split(',').each do |c| %>
+              <% p = Card.find(c) %>
+              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+          <% end %>
+        <% else %>
+            <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.split(',').each do |c| %>
+                  <%= image_tag("card/font.png", height: '100', width: '70') %>
+              <% end %>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-md-6">
+    <% if @room.player_2.present? %>
+        <% if @room.player_2 == current_user %>
+        <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.split(',').each do |c| %>
+              <% p = Card.find(c) %>
+              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+          <% end %>
+        <% else %>
+            <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.split(',').each do |c| %>
+                  <%= image_tag("card/font.png", height: '100', width: '70') %>
+              <% end %>
+        <% end %>
+    <% end %>
+  </div>
+  </div>
+
+  <div class="row col-md-offset-3">
+    <br>Koloda: <%= image_tag("card/font.png", height: '100', width: '70') %>
+  </div>
+
+  <div class="row">
+    <div class="player_3 col-md-6">
+      <% if @room.player_3.present? %>
+          <% if @room.player_3 == current_user %>
+              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.split(',').each do |c| %>
+                <% p = Card.find(c) %>
+                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+            <% end %>
+          <% else %>
+              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.split(',').each do |c| %>
+                <%= image_tag("card/font.png", height: '100', width: '70') %>
+            <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="player_4 col-md-6">
+      <% if @room.player_4.present? %>
+          <% if @room.player_4 == current_user %>
+              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.split(',').each do |c| %>
+                <% p = Card.find(c) %>
+                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+            <% end %>
+          <% else %>
+              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.split(',').each do |c| %>
+                    <%= image_tag("card/font.png", height: '100', width: '70') %>
+                <% end %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>

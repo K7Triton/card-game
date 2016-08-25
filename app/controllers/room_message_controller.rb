@@ -10,10 +10,17 @@ class RoomMessageController < ApplicationController
   end
 
   def create
-    @user = User.find_by(:room_id current_user.id)
+    @user = User.find_by(room_id: current_user.id)
     @message = RoomMessage.new(message_params)
     if @message.save
       redirect_to :back
+    end
+  end
+
+  def auth_user
+    unless current_user
+      redirect_to new_user_session_path
+    end
   end
 
   private

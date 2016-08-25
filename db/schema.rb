@@ -30,10 +30,6 @@ ActiveRecord::Schema.define(version: 20160815135609) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "player_1"
-    t.integer  "player_2"
-    t.integer  "player_3"
-    t.integer  "player_4"
     t.integer  "player_1_id"
     t.integer  "player_2_id"
     t.integer  "player_3_id"
@@ -44,6 +40,8 @@ ActiveRecord::Schema.define(version: 20160815135609) do
     t.string   "player_4_cards"
     t.string   "bank"
     t.string   "otboi"
+    t.boolean  "start"
+    t.index ["user_id"], name: "index_rooms_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

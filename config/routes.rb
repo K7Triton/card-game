@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 end
 
   get 'rooms/:id/start', to: 'rooms#start_game', as: 'start_game'
+  get 'rooms/:id/move/:card', to: 'rooms#move'
 end

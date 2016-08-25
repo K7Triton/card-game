@@ -10,5 +10,6 @@ class AddColumnsToRooms < ActiveRecord::Migration[5.0]
     add_column :rooms, :player_4_cards, :string
     add_column :rooms, :bank,           :string
     add_column :rooms, :otboi,          :string
+    add_column :rooms, :start,          :boolean
   end
 end
