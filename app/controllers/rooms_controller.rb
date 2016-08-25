@@ -33,6 +33,12 @@ class RoomsController < ApplicationController
   end
 end
 
+  def destroy
+    @room = Room.find_by_id(params[:id])
+    @room.destroy
+    redirect_to :back
+  end
+
   def start_game
     @room = Room.find_by_id(params[:id])
     @bank = (1..36).to_a.sample(36)
@@ -43,6 +49,7 @@ end
     @room.bank = @bank.to_s
     @room.save
   end
+
 
   def auth_user
     unless current_user

@@ -21,6 +21,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'redis'
 gem "omniauth-google-oauth2"
+gem 'bootstrap', '~> 4.0.0.alpha3.1'
 
 
 ########################
