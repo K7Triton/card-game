@@ -1,9 +1,42 @@
-<h1>Rooms List</h1>
-<%= link_to 'Create new room', new_room_path %><br>
-
-
-<h2>Existing Rooms</h2>
-<% @rooms.each do |r| %>
-<%= r.name %>
-<%= link_to 'Join room', room_path({id: r.id}) %><br>
-<% end %>
+<br>
+<br>
+<br>
+<%= link_to 'Create new room', new_room_path, remote: true, 'data-toggle' => "modal", 'data-target' => "#modal-1", method: 'get' %><br>
+<div class="modal" id="modal-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Create room window</h3>
+      </div>
+      <div class="modal-body">
+        <%= form_for(:room, url: rooms_path, method: :post) do |r| %>
+        <div class="form-inputs">
+          <%= r.text_field :name, placeholder: 'Please enter room name' %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-actions">
+          <%= r.submit 'Create Room' %>
+        </div>
+      </div>
+          <% end %>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<table class="table">
+  <tr>
+    <th>Room name </th>
+    <th>Join to Room</th>
+    <th>Leave Room</th>
+  </tr>
+  <tr>
+  <% @rooms.each do |r| %>
+    <td><%= r.name %></td>
+    <td><%= link_to 'Join room', room_path({id: r.id}) %></td>
+    <td><%= link_to 'Remove room', room_path({id: r.id}), method: :delete %></td>
+  </tr>
+  <% end %>
+</table>
