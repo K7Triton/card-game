@@ -23,8 +23,6 @@ gem 'redis'
 gem "omniauth-google-oauth2"
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
 
-gem 'bootstrap-sass'
-
 ########################
 
 # Use jquery as the JavaScript library
