@@ -1,7 +1,7 @@
 <br>
 <br>
 <br>
-<%= link_to 'Create new room', new_room_path, remote: true, 'data-toggle' => "modal", 'data-target' => "#modal-1", method: 'get' %><br>
+<%= link_to 'Create new room', new_room_path, remote: true, 'data-toggle' => "modal", 'data-target' => "#modal-1", method: 'get', class: 'btn btn-success' %><br>
 <div class="modal" id="modal-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -12,12 +12,12 @@
       <div class="modal-body">
         <%= form_for(:room, url: rooms_path, method: :post) do |r| %>
         <div class="form-inputs">
-          <%= r.text_field :name, placeholder: 'Please enter room name' %>
+          <%= r.text_field :name, placeholder: 'Please enter room name', class: 'input-group' %>
         </div>
       </div>
       <div class="modal-footer">
         <div class="form-actions">
-          <%= r.submit 'Create Room' %>
+          <%= r.submit 'Create Room', class: 'btn btn-success' %>
         </div>
       </div>
           <% end %>
@@ -29,14 +29,14 @@
 <table class="table">
   <tr>
     <th>Room name </th>
-    <th>Join to Room</th>
-    <th>Leave Room</th>
+    <th>Action</th>
+    <th>Remove Room</th>
   </tr>
   <tr>
   <% @rooms.reverse.each do |r| %>
     <td><%= r.name %></td>
-    <td><% if r.start? %>  <%= link_to 'Game started. Watch?', room_path({id: r.id})%> <% else %> <%= link_to 'Join room', room_path({id: r.id}) %><% end %></td>
-    <td><%= link_to 'Remove room', room_path({id: r.id}), method: :delete %></td>
+    <td><% if r.start? %>  <%= link_to 'Game started. Watch?', room_path({id: r.id}), class: 'btn btn-primary'%> <% else %> <%= link_to 'Join room', room_path({id: r.id}), class: 'btn btn-primary' %><% end %></td>
+    <td><%= link_to 'Remove room', room_path({id: r.id}), method: :delete, class: 'btn btn-danger' %></td>
   </tr>
   <% end %>
 </table>

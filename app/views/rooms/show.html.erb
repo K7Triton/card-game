@@ -1,5 +1,5 @@
 <h1>Room</h1>
-Комната номер: <%= @room.id %> 
+Комната номер: <%= @room.id %>
 
 <div>
   <p>Player 1 : <%= @room.player_1.email %></p>
@@ -15,5 +15,5 @@
 </div>
 
 <div>
-  <% if @room.start? %> <%= link_to  'Watch game', start_game_path %> <% else %> <%= link_to  'Start game', start_game_path %> <% end %>
+  <% if @room.start? %> <%= link_to  'Watch game', start_game_path, class: 'btn btn-primary' %> <% else %> <%= link_to  'Start game', start_game_path, class: 'btn btn-primary' %> <% end %>
 </div>
