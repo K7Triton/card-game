@@ -39,10 +39,12 @@
     <div class="col-md-6">
       <br>Koloda: <%= image_tag("card/font.png", height: '100', width: '70') %>
     </div>
+    <% if @room.otboi.present? %>
     <div class="col-md-6">
       Otboi: <% p = Card.find(@room.otboi.last) %>
           <%= image_tag("card/" + p.image, height: '100', width: '70')%>
     </div>
+    <% end %>
   </div>
 
   <div class="row">
