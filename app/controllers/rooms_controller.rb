@@ -106,13 +106,17 @@ end
     elsif @room.player_4 == current_user
           @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
     end
+    peretysyvatu
     @room.save
     redirect_to :back
   end
 
-  def shuffle
-    
+  def peretysyvatu
+    if @room.bank.empty?
+       @room.bank = @room.otboi.shuffle!
+       @room.otboi = nil
   end
+end
 
 
   private
