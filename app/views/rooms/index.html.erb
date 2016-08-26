@@ -33,9 +33,9 @@
     <th>Leave Room</th>
   </tr>
   <tr>
-  <% @rooms.each do |r| %>
+  <% @rooms.reverse.each do |r| %>
     <td><%= r.name %></td>
-    <td><%= link_to 'Join room', room_path({id: r.id}) %></td>
+    <td><% if r.start? %>  <%= link_to 'Game started. Watch?', room_path({id: r.id})%> <% else %> <%= link_to 'Join room', room_path({id: r.id}) %><% end %></td>
     <td><%= link_to 'Remove room', room_path({id: r.id}), method: :delete %></td>
   </tr>
   <% end %>

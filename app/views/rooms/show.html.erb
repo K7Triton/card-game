@@ -1,19 +1,19 @@
 <h1>Room</h1>
-Комната номер: <%= @room.id %>
+Комната номер: <%= @room.id %> 
 
 <div>
   <p>Player 1 : <%= @room.player_1.email %></p>
 </div>
 <div>
-  <p>Player 2 : <%= @room.player_2_id %></p>
+  <p>Player 2 :<% if @room.player_2.present? %> <%=  @room.player_2.email %> <% end %></p>
 </div>
 <div>
-  <p>Player 3 : <%= @room.player_3_id %></p>
+  <p>Player 3 :<% if @room.player_3.present? %> <%=  @room.player_3.email %> <% end %></p>
 </div>
 <div>
-  <p>Player 4 : <%= @room.player_4_id %></p>
+  <p>Player 4 :<% if @room.player_4.present? %> <%=  @room.player_4.email %> <% end %></p>
 </div>
 
 <div>
- <%= link_to 'Start game', start_game_path %>
+  <% if @room.start? %> <%= link_to  'Watch game', start_game_path %> <% else %> <%= link_to  'Start game', start_game_path %> <% end %>
 </div>
