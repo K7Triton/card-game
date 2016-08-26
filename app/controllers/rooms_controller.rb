@@ -100,11 +100,11 @@ end
     if    @room.player_1 == current_user
           @room.player_1_cards =  @room.player_1_cards + @room.bank.pop(1)
     elsif @room.player_2 == current_user
-          @room.player_2_cards =  @room.player_2_cards.delete_if{ |i| i == params[:card].to_i }
+          @room.player_2_cards =  @room.player_2_cards + @room.bank.pop(1)
     elsif @room.player_3 == current_user
-          @room.player_3_cards =  @room.player_3_cards.delete_if{ |i| i == params[:card].to_i }
+          @room.player_3_cards =  @room.player_3_cards + @room.bank.pop(1)
     elsif @room.player_4 == current_user
-          @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
+          @room.player_4_cards =  @room.player_4_cards + @room.bank.pop(1)
     end
     peretysyvatu
     @room.save
