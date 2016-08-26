@@ -7,12 +7,12 @@
   <div class="col-md-6">
     <% if @room.player_1.present? %>
         <% if @room.player_1 == current_user %>
-              <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.split(',').each do |c| %>
+              <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.each do |c| %>
               <% p = Card.find(c) %>
-              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c.to_s %>
           <% end %>
         <% else %>
-            <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.split(',').each do |c| %>
+            <p> Player 1 : <%= @room.player_1.email %> </p> <% @room.player_1_cards.each do |c| %>
                   <%= image_tag("card/font.png", height: '100', width: '70') %>
               <% end %>
         <% end %>
@@ -22,12 +22,12 @@
   <div class="col-md-6">
     <% if @room.player_2.present? %>
         <% if @room.player_2 == current_user %>
-        <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.split(',').each do |c| %>
+        <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.each do |c| %>
               <% p = Card.find(c) %>
-              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+              <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c.to_s %>
           <% end %>
         <% else %>
-            <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.split(',').each do |c| %>
+            <p> Player 2 : <%= @room.player_2.email %> </p> <% @room.player_2_cards.each do |c| %>
                   <%= image_tag("card/font.png", height: '100', width: '70') %>
               <% end %>
         <% end %>
@@ -36,19 +36,25 @@
   </div>
 
   <div class="row col-md-offset-3">
-    <br>Koloda: <%= image_tag("card/font.png", height: '100', width: '70') %>
+    <div class="col-md-6">
+      <br>Koloda: <%= image_tag("card/font.png", height: '100', width: '70') %>
+    </div>
+    <div class="col-md-6">
+      Otboi: <% p = Card.find(@room.otboi.last) %>
+          <%= image_tag("card/" + p.image, height: '100', width: '70')%>
+    </div>
   </div>
 
   <div class="row">
     <div class="player_3 col-md-6">
       <% if @room.player_3.present? %>
           <% if @room.player_3 == current_user %>
-              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.split(',').each do |c| %>
+              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.each do |c| %>
                 <% p = Card.find(c) %>
-                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c.to_s %>
             <% end %>
           <% else %>
-              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.split(',').each do |c| %>
+              <p> Player 3 : <%= @room.player_3.email %> </p> <% @room.player_3_cards.each do |c| %>
                 <%= image_tag("card/font.png", height: '100', width: '70') %>
             <% end %>
         <% end %>
@@ -58,12 +64,12 @@
     <div class="player_4 col-md-6">
       <% if @room.player_4.present? %>
           <% if @room.player_4 == current_user %>
-              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.split(',').each do |c| %>
+              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.each do |c| %>
                 <% p = Card.find(c) %>
-                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c %>
+                <%= link_to image_tag("card/" + p.image, height: '100', width: '70'), 'move/'+ c.to_s %>
             <% end %>
           <% else %>
-              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.split(',').each do |c| %>
+              <p> Player 4 : <%= @room.player_4.email %> </p> <% @room.player_4_cards.each do |c| %>
                     <%= image_tag("card/font.png", height: '100', width: '70') %>
                 <% end %>
           <% end %>

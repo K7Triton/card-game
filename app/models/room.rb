@@ -1,4 +1,12 @@
 class Room < ApplicationRecord
+  serialize :player_1_cards, Array
+  serialize :player_2_cards, Array
+  serialize :player_3_cards, Array
+  serialize :player_4_cards, Array
+  serialize :bank, Array
+  serialize :otboi, Array
+
+
   belongs_to :user
 
   belongs_to :player_1, class_name: "User",

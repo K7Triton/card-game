@@ -42,11 +42,11 @@ class RoomsController < ApplicationController
     @room = Room.find_by_id(params[:id])
     unless @room.start?
       @bank = (1..36).to_a.sample(36)
-      @room.player_1_cards = @bank.pop(5).to_s.chomp(']').delete '['
-      @room.player_2_cards = @bank.pop(5).to_s.chomp(']').delete '['
-      @room.player_3_cards = @bank.pop(5).to_s.chomp(']').delete '['
-      @room.player_4_cards = @bank.pop(5).to_s.chomp(']').delete '['
-      @room.bank = @bank.to_s.chomp(']').delete '['
+      @room.player_1_cards = @bank.pop(5)
+      @room.player_2_cards = @bank.pop(5)
+      @room.player_3_cards = @bank.pop(5)
+      @room.player_4_cards = @bank.pop(5)
+      @room.bank = @bank
       @room.start = true
       @room.save
     end
@@ -54,16 +54,15 @@ class RoomsController < ApplicationController
 
   def move
     @room = Room.find_by_id(params[:id])
-    @room.otboi = params[:card]
+    @room.otboi.push(params[:card].to_i)
     if    @room.player_1 == current_user
-          @room.player_1_cards.split(',').delete params[:card]
+          @room.player_1_cards =  @room.player_1_cards.delete_if{ |i| i == params[:card].to_i }
     elsif @room.player_2 == current_user
-          @room.player_2_cards.split(',').delete params[:card]
+          @room.player_2_cards =  @room.player_2_cards.delete_if{ |i| i == params[:card].to_i }
     elsif @room.player_3 == current_user
-          @room.player_3_cards.split(',').delete params[:card]
+          @room.player_3_cards =  @room.player_3_cards.delete_if{ |i| i == params[:card].to_i }
     elsif @room.player_4 == current_user
-          @room.player_4_cards = @room.player_4_cards.split(',').delete_if {|x| x ==  params[:card] }
-          @room.player_4_cards = @room.player_4_cards.to_s.chomp(']').delete '['
+          @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
     end
     @room.save
 
