@@ -1,0 +1,12 @@
+<div class="chat_content">
+  <%  RoomMessage.where(room_id: @room.id).each do |mc| %>
+  <%= mc.content %><br>
+  <% end %>
+</div>
+
+<div class="chat">
+  <%= form_for([@room, @room.room_messages.build]) do |m| %>
+  <%= m.text_field :content %>
+  <%= m.submit 'Send message' %>
+  <% end %>
+</div>

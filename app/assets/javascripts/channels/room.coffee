@@ -3,7 +3,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   connected: ->
     # Called when the subscription is ready for use on the server
-      alert("You connected to room")
+      #alert("You connected to room")
   disconnected: ->
     # Called when the subscription has been terminated by the server
 
@@ -13,7 +13,3 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   speak: (message) ->
     @perform 'speak', message: message
-
-
-
-

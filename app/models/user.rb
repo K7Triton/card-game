@@ -10,6 +10,7 @@ class User < ApplicationRecord
   #has_many :rooms
   has_many :cards
   #belongs_to :room
+  has_many :room_messages
 
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
@@ -30,5 +31,4 @@ class User < ApplicationRecord
       end
     end
   end
-
 end
