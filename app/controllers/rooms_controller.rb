@@ -66,7 +66,7 @@ class RoomsController < ApplicationController
           @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
     end
     @room.save
-    ActionCable.server.broadcast 'room:'+@room.id,
+    ActionCable.server.broadcast 'room:'+@room.id.to_s,
                   message: @room
 
     head :ok

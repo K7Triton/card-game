@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829081349) do
+ActiveRecord::Schema.define(version: 20160829134823) do
 
   create_table "cards", force: :cascade do |t|
     t.integer "value"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20160829081349) do
     t.integer  "room_id"
   end
 
+  create_table "room_users", force: :cascade do |t|
+    t.integer  "room_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_room_users_on_room_id"
+    t.index ["user_id"], name: "index_room_users_on_user_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -35,12 +44,12 @@ ActiveRecord::Schema.define(version: 20160829081349) do
     t.integer  "player_2_id"
     t.integer  "player_3_id"
     t.integer  "player_4_id"
-    t.text     "player_1_cards"
-    t.text     "player_2_cards"
-    t.text     "player_3_cards"
-    t.text     "player_4_cards"
-    t.text     "bank"
-    t.text     "otboi"
+    t.string   "player_1_cards"
+    t.string   "player_2_cards"
+    t.string   "player_3_cards"
+    t.string   "player_4_cards"
+    t.string   "bank"
+    t.string   "otboi"
     t.boolean  "start"
     t.index ["user_id"], name: "index_rooms_on_user_id"
   end
