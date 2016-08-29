@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
 
-  #has_many :rooms
+  has_many :rooms
   has_many :cards
   #belongs_to :room
   has_many :room_messages

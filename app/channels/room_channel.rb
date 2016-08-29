@@ -2,10 +2,10 @@
 class RoomChannel < ApplicationCable::Channel
 
   def subscribed
-     #current_user.rooms.each do |room|
-     #stream_from "room:#{room.id}"
-       #end
-    stream_from "room"
+     current_user.rooms.each do |room|
+     stream_from "room:#{room.id}"
+     end
+
   end
 
   def unsubscribed
@@ -16,8 +16,5 @@ class RoomChannel < ApplicationCable::Channel
     ActionCable.server.broadcast "room_channel", message: data['message']
   end
 
-  def move(data)
-    alert("kryto")
-  end
 
 end
