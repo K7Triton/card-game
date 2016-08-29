@@ -15,7 +15,11 @@ class RoomMessagesController < ApplicationController
     @message.room_id = params[:room_id]
     @message.user_id = current_user.id
     if @message.save!
-      redirect_to :back
+      ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                   message: @message.content,
+                                   user: @message.user
+
+      head :ok
     end
   end
 

@@ -7,19 +7,21 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find_by_id(params[:id])
-    unless [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].include? current_user.id
-      if @room.player_1_id == nil
-        @room.update_attribute(:player_1_id, current_user.id)
-      elsif @room.player_2_id == nil
-        @room.update_attribute(:player_2_id, current_user.id)
-      elsif @room.player_3_id == nil
-        @room.update_attribute(:player_3_id, current_user.id)
-      else
-        @room.update_attribute(:player_4_id, current_user.id)
+      unless @room.start?
+        unless [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].include? current_user.id
+          if @room.player_1_id == nil
+            @room.update_attribute(:player_1_id, current_user.id)
+          elsif @room.player_2_id == nil
+            @room.update_attribute(:player_2_id, current_user.id)
+          elsif @room.player_3_id == nil
+            @room.update_attribute(:player_3_id, current_user.id)
+          else
+            @room.update_attribute(:player_4_id, current_user.id)
+          end
+        end
       end
-      @room_user = @room.room_users.create(user_id: current_user.id)
-      @room_user.save!
-    end
+      @room_user = @room.room_users.where(user_id: current_user.id).first_or_create!
+
   end
 
   def new
@@ -70,7 +72,7 @@ class RoomsController < ApplicationController
     end
     @room.save
     ActionCable.server.broadcast 'room:'+@room.id.to_s,
-                  message: @room
+                                          move: @room
 
     head :ok
 
@@ -117,7 +119,7 @@ end
     peretysyvatu
     @room.save
     ActionCable.server.broadcast 'room:'+@room.id.to_s,
-                                 message: @room
+                                 move: @room
 
     head :ok
   end

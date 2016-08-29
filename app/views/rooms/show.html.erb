@@ -1,19 +1,26 @@
-<h1>Room</h1>
-Комната номер: <%= @room.id %>
+<div class="container row">
+  <div class="col-md-5">
+    <h1>Room</h1>
+    Комната номер: <%= @room.id %>
 
-<div>
-  <p>Player 1 : <%= @room.player_1.email %></p>
-</div>
-<div>
-  <p>Player 2 :<% if @room.player_2.present? %> <%=  @room.player_2.email %> <% end %></p>
-</div>
-<div>
-  <p>Player 3 :<% if @room.player_3.present? %> <%=  @room.player_3.email %> <% end %></p>
-</div>
-<div>
-  <p>Player 4 :<% if @room.player_4.present? %> <%=  @room.player_4.email %> <% end %></p>
-</div>
+    <div>
+      <p>Player 1 : <%= @room.player_1.email %></p>
+    </div>
+    <div>
+      <p>Player 2 :<% if @room.player_2.present? %> <%=  @room.player_2.email %> <% end %></p>
+    </div>
+    <div>
+      <p>Player 3 :<% if @room.player_3.present? %> <%=  @room.player_3.email %> <% end %></p>
+    </div>
+    <div>
+      <p>Player 4 :<% if @room.player_4.present? %> <%=  @room.player_4.email %> <% end %></p>
+    </div>
 
-<div>
-  <% if @room.start? %> <%= link_to  'Watch game', start_game_path, class: 'btn btn-primary' %> <% else %> <%= link_to  'Start game', start_game_path, class: 'btn btn-primary' %> <% end %>
+    <div>
+      <% if @room.start? %> <%= link_to  'Watch game', start_game_path, class: 'btn btn-primary' %> <% else %> <%= link_to  'Start game', start_game_path, class: 'btn btn-primary' %> <% end %>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <%= render '/devise/shared/new' %>
+  </div>
 </div>
