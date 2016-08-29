@@ -66,8 +66,11 @@ class RoomsController < ApplicationController
           @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
     end
     @room.save
+    ActionCable.server.broadcast 'room',
+                  message: @room
 
-    redirect_to :back
+    head :ok
+
   end
 
 
@@ -78,6 +81,7 @@ class RoomsController < ApplicationController
   end
 
   def rules
+
     if [9,10,11,12].include? params[:card].to_i
     flash[:notice] = 'Card taken'
   end
@@ -93,6 +97,7 @@ class RoomsController < ApplicationController
     if [1,2,3,4].include? params[:card].to_i
     flash[:notice] = 'Ovelap your card'
   end
+
 end
 
   def get_card
