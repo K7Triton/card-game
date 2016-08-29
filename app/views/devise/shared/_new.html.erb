@@ -5,7 +5,7 @@
 </div>
 
 <div class="chat">
-  <%= form_for([@room, @room.room_messages.build]) do |m| %>
+  <%= form_for([@room, @room.room_messages.build])  do |m| %>
   <%= m.text_field :content %>
   <%= m.submit 'Send message' %>
   <% end %>

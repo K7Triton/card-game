@@ -17,6 +17,8 @@ class RoomsController < ApplicationController
       else
         @room.update_attribute(:player_4_id, current_user.id)
       end
+      @room_user = @room.room_users.create(user_id: current_user.id)
+      @room_user.save!
     end
   end
 
@@ -28,6 +30,7 @@ class RoomsController < ApplicationController
     @room = Room.create(room_params)
     @room.user_id = current_user.id
     if @room.save!
+
       redirect_to @room
     end
   end
@@ -113,7 +116,10 @@ end
     end
     peretysyvatu
     @room.save
-    redirect_to :back
+    ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                 message: @room
+
+    head :ok
   end
 
   def peretysyvatu
