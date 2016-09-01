@@ -30,13 +30,15 @@
   <tr>
     <th>Room name </th>
     <th>Action</th>
-    <th>Remove Room</th>
+    <th>Players</th>
+    <th>Options</th>
   </tr>
   <tr>
   <% @rooms.reverse.each do |r| %>
     <td><%= r.name %></td>
     <td><% if r.start? %>  <%= link_to 'Game started. Watch?', room_path({id: r.id}), class: 'btn btn-primary'%> <% else %> <%= link_to 'Join room', room_path({id: r.id}), class: 'btn btn-primary' %><% end %></td>
-    <td><%= link_to 'Remove room', room_path({id: r.id}), method: :delete, class: 'btn btn-danger' %></td>
+    <td><%= [r.player_1_id, r.player_2_id, r.player_3_id, r.player_4_id].compact.size %>/4</td>
+    <td><% if r.user == current_user %> <%= link_to 'Remove room', room_path({id: r.id}), method: :delete, class: 'btn btn-danger' %><% else %> Comming soon... <% end %></td>
   </tr>
   <% end %>
 </table>

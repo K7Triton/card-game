@@ -12,11 +12,12 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
     if data.message?
       $('.chat_content').append @renderChat(data)
+
     else
       $("#carts").load(location.href + " #carts");
 
   renderChat: (data) ->
     data.user.email + ':' + '<b>' + data.message + '</b><br>'
-
+    
   speak: (message) ->
     @perform 'speak', message: message

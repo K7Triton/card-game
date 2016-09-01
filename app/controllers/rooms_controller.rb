@@ -47,10 +47,18 @@ class RoomsController < ApplicationController
     @room = Room.find_by_id(params[:id])
     unless @room.start?
       @bank = (1..36).to_a.sample(36)
-      @room.player_1_cards = @bank.pop(5)
-      @room.player_2_cards = @bank.pop(5)
-      @room.player_3_cards = @bank.pop(5)
-      @room.player_4_cards = @bank.pop(5)
+      if @room.player_1.present?
+        @room.player_1_cards = @bank.pop(5)
+      end
+      if @room.player_2.present?
+        @room.player_2_cards = @bank.pop(5)
+      end
+      if @room.player_3.present?
+        @room.player_3_cards = @bank.pop(5)
+      end
+      if @room.player_4.present?
+        @room.player_4_cards = @bank.pop(5)
+      end
       @room.bank = @bank
       @room.start = true
       @room.save
@@ -60,24 +68,38 @@ class RoomsController < ApplicationController
   def move
     @room = Room.find_by_id(params[:id])
     rules
-    @room.otboi.push(params[:card].to_i)
-    if    @room.player_1 == current_user
-          @room.player_1_cards =  @room.player_1_cards.delete_if{ |i| i == params[:card].to_i }
-    elsif @room.player_2 == current_user
-          @room.player_2_cards =  @room.player_2_cards.delete_if{ |i| i == params[:card].to_i }
-    elsif @room.player_3 == current_user
-          @room.player_3_cards =  @room.player_3_cards.delete_if{ |i| i == params[:card].to_i }
-    elsif @room.player_4 == current_user
-          @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
-    end
-    @room.save
-    ActionCable.server.broadcast 'room:'+@room.id.to_s,
-                                          move: @room
+      @room.otboi.push(params[:card].to_i)
+      player_cards.delete_if{ |i| i == params[:card].to_i }
+=begin
+      if    @room.player_1 == current_user
+            @room.player_1_cards =  @room.player_1_cards.delete_if{ |i| i == params[:card].to_i }
+      elsif @room.player_2 == current_user
+            @room.player_2_cards =  @room.player_2_cards.delete_if{ |i| i == params[:card].to_i }
+      elsif @room.player_3 == current_user
+            @room.player_3_cards =  @room.player_3_cards.delete_if{ |i| i == params[:card].to_i }
+      elsif @room.player_4 == current_user
+            @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
+      end
+=end
+      @room.save
+      ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                            move: @room
 
-    head :ok
-
+      head :ok
   end
 
+  def player_cards
+    if    @room.player_1 == current_user
+            @room.player_1_cards
+    elsif @room.player_2 == current_user
+            @room.player_2_cards
+    elsif @room.player_3 == current_user
+            @room.player_3_cards
+    elsif @room.player_4 == current_user
+            @room.player_4_cards
+    end
+   #p = { @room.player_1 =>  @room.player_1_cards, @room.player_2 =>  @room.player_2_cards, @room.player_3 =>  @room.player_3_cards, @room.player_4 =>  @room.player_4_cards }.select {|k,v| k == current_user}
+  end
 
   def auth_user
     unless current_user
@@ -86,7 +108,6 @@ class RoomsController < ApplicationController
   end
 
   def rules
-
     if [9,10,11,12].include? params[:card].to_i
     flash[:notice] = 'Card taken'
   end
@@ -100,13 +121,18 @@ class RoomsController < ApplicationController
     flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
   end
     if [1,2,3,4].include? params[:card].to_i
-    flash[:notice] = 'Ovelap your card'
+    flash[:notice] = 'Overlap your card'
   end
 
 end
 
   def get_card
     @room = Room.find_by_id(params[:id])
+    if @room.bank.present?
+      player_cards.push(@room.bank.pop(1)[0])
+    end
+
+=begin
     if    @room.player_1 == current_user
           @room.player_1_cards =  @room.player_1_cards + @room.bank.pop(1)
     elsif @room.player_2 == current_user
@@ -116,6 +142,7 @@ end
     elsif @room.player_4 == current_user
           @room.player_4_cards =  @room.player_4_cards + @room.bank.pop(1)
     end
+=end
     peretysyvatu
     @room.save
     ActionCable.server.broadcast 'room:'+@room.id.to_s,

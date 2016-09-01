@@ -7,6 +7,6 @@
 <div class="chat">
   <%= form_for([@room, @room.room_messages.build], remote: true)  do |m| %>
       <%= m.text_field :content %>
-      <%= m.submit 'Send message' %>
+      <%= m.submit 'Send message', id: 'submitMessage' %>
   <% end %>
 </div>

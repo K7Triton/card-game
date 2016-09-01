@@ -22,3 +22,12 @@ $(document).ready(function(){
         // ('.google').slideToggle();
     })
 });
+$(document).ready(function() {
+
+    $("#submitMessage").bind('click', function () {
+        setTimeout("$('#new_room_message')[0].reset();",200);
+        
+
+    });
+});
+
