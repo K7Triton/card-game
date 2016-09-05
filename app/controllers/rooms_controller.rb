@@ -20,8 +20,7 @@ class RoomsController < ApplicationController
           end
         end
       end
-      @room_user = @room.room_users.where(user_id: current_user.id).first_or_create!
-
+    @room_user = @room.room_users.where(user_id: current_user.id).first_or_create!
   end
 
   def new
@@ -32,7 +31,6 @@ class RoomsController < ApplicationController
     @room = Room.create(room_params)
     @room.user_id = current_user.id
     if @room.save!
-
       redirect_to @room
     end
   end
@@ -60,6 +58,7 @@ class RoomsController < ApplicationController
         @room.player_4_cards = @bank.pop(5)
       end
       @room.bank = @bank
+      @room.who_move = @room.user_id
       @room.start = true
       @room.save
     end
@@ -67,25 +66,37 @@ class RoomsController < ApplicationController
 
   def move
     @room = Room.find_by_id(params[:id])
+    if who_move == true
     rules
       @room.otboi.push(params[:card].to_i)
       player_cards.delete_if{ |i| i == params[:card].to_i }
-=begin
-      if    @room.player_1 == current_user
-            @room.player_1_cards =  @room.player_1_cards.delete_if{ |i| i == params[:card].to_i }
-      elsif @room.player_2 == current_user
-            @room.player_2_cards =  @room.player_2_cards.delete_if{ |i| i == params[:card].to_i }
-      elsif @room.player_3 == current_user
-            @room.player_3_cards =  @room.player_3_cards.delete_if{ |i| i == params[:card].to_i }
-      elsif @room.player_4 == current_user
-            @room.player_4_cards =  @room.player_4_cards.delete_if{ |i| i == params[:card].to_i }
-      end
-=end
+
       @room.save
+
       ActionCable.server.broadcast 'room:'+@room.id.to_s,
                                             move: @room
-
       head :ok
+    else
+
+      flash[:notice] = 'Wait when player move'
+    end
+
+  end
+
+  def who_move
+    players = [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].compact
+     if @room.who_move == current_user.id
+          z = players.find_index(current_user.id)
+          @room.who_move = if players[z+1] != nil
+                             players[z+1]
+                           else
+                             players[0]
+                           end
+       true
+     else
+       false
+       end
+
   end
 
   def player_cards
@@ -98,7 +109,6 @@ class RoomsController < ApplicationController
     elsif @room.player_4 == current_user
             @room.player_4_cards
     end
-   #p = { @room.player_1 =>  @room.player_1_cards, @room.player_2 =>  @room.player_2_cards, @room.player_3 =>  @room.player_3_cards, @room.player_4 =>  @room.player_4_cards }.select {|k,v| k == current_user}
   end
 
   def auth_user
@@ -109,54 +119,47 @@ class RoomsController < ApplicationController
 
   def rules
     if [9,10,11,12].include? params[:card].to_i
-    flash[:notice] = 'Card taken'
-  end
+      flash[:notice] = 'Card taken'
+    end
     if [33,34,35,36].include? params[:card].to_i
-    flash[:notice] = 'You miss a turn'
-  end
+      flash[:notice] = 'You miss a turn'
+    end
     if [21,22,23,24].include? params[:card].to_i
-    flash[:notice] = 'Plase choose a suite'
-  end
+      flash[:notice] = 'Plase choose a suite'
+    end
     if [5,6,7,8].include? params[:card].to_i
-    flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
-  end
+      flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
+    end
     if [1,2,3,4].include? params[:card].to_i
-    flash[:notice] = 'Overlap your card'
+      flash[:notice] = 'Overlap your card'
+    end
   end
-
-end
 
   def get_card
     @room = Room.find_by_id(params[:id])
-    if @room.bank.present?
-      player_cards.push(@room.bank.pop(1)[0])
-    end
+    if  @room.who_move == current_user.id
+      if @room.bank.present?
+        player_cards.push(@room.bank.pop(1)[0])
+      end
 
-=begin
-    if    @room.player_1 == current_user
-          @room.player_1_cards =  @room.player_1_cards + @room.bank.pop(1)
-    elsif @room.player_2 == current_user
-          @room.player_2_cards =  @room.player_2_cards + @room.bank.pop(1)
-    elsif @room.player_3 == current_user
-          @room.player_3_cards =  @room.player_3_cards + @room.bank.pop(1)
-    elsif @room.player_4 == current_user
-          @room.player_4_cards =  @room.player_4_cards + @room.bank.pop(1)
-    end
-=end
-    peretysyvatu
-    @room.save
-    ActionCable.server.broadcast 'room:'+@room.id.to_s,
-                                 move: @room
+      peretysyvatu
+      @room.save
+      ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                   move: @room
 
-    head :ok
+      head :ok
+    else
+
+      flash[:notice] = 'Wait when player move'
+    end
   end
 
   def peretysyvatu
     if @room.bank.empty?
-       @room.bank = @room.otboi.shuffle!
-       @room.otboi = nil
+         @room.bank = @room.otboi.shuffle!
+         @room.otboi = nil
+    end
   end
-end
 
 
   private

@@ -1,7 +1,7 @@
 
 <div class="chat_content">
   <%  RoomMessage.where(room_id: @room.id).each do |mc| %>
-    <%= mc.user.email %> : <b><%= mc.content %></b><br>
+    <%= mc.user.email %>: <b><%= mc.content %></b><br>
   <% end %>
 </div>
 <div class="chat">

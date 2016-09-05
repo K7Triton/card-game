@@ -17,7 +17,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
       $("#carts").load(location.href + " #carts");
 
   renderChat: (data) ->
-    data.user.email + ':' + '<b>' + data.message + '</b><br>'
+    data.user.email + ': ' + '<b>' + data.message + '</b><br>'
     
   speak: (message) ->
     @perform 'speak', message: message

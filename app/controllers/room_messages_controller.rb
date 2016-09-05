@@ -18,7 +18,6 @@ class RoomMessagesController < ApplicationController
       ActionCable.server.broadcast 'room:'+@room.id.to_s,
                                    message: @message.content,
                                    user: @message.user
-
       head :ok
     end
   end
