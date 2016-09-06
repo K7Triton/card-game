@@ -3,6 +3,9 @@
   <div class="room">
     <p>Room #: <%= @room.id %> || Creator:  <%= @room.user.email %>
   </div>
+  <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+  <% end %>
   <div class="row">
   <div class="col-md-6">
     <% if @room.player_1.present? %>
