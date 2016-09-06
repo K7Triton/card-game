@@ -66,7 +66,7 @@ class RoomsController < ApplicationController
 
   def move
     @room = Room.find_by_id(params[:id])
-    if who_move == true
+    if @room.who_move == current_user.id
     rules
       @room.otboi.push(params[:card].to_i)
       player_cards.delete_if{ |i| i == params[:card].to_i }
@@ -77,13 +77,14 @@ class RoomsController < ApplicationController
                                             move: @room
       head :ok
     else
-
-      flash[:notice] = 'Wait when player move'
+      #flash[:notice] = 'Wait when player move'
+      #redirect_back({fallback_location: request.referer}, flash[:notice] = 'Wait when player move')
     end
 
   end
 
-  def who_move
+  def end_turn
+    @room = Room.find_by_id(params[:id])
     players = [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].compact
      if @room.who_move == current_user.id
           z = players.find_index(current_user.id)
@@ -92,10 +93,14 @@ class RoomsController < ApplicationController
                            else
                              players[0]
                            end
-       true
+          @room.save
+          ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                           move: @room
+          head :ok
+
      else
        false
-       end
+     end
 
   end
 

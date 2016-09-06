@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   get 'rooms/:id/start', to: 'rooms#start_game', as: 'start_game'
   get 'rooms/:id/move/:card', to: 'rooms#move'
   get 'rooms/:id/get_card', to: 'rooms#get_card'
-  #get 'rooms/:id/start/', to: 'room_message#new', as: 'create_message'
+  get 'rooms/:id/start/end_turn', to: 'rooms#end_turn', as: 'end_turn'
   #post 'rooms/:id/start/', to: 'room_message#create', as: 'create_message'
 end

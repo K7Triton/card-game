@@ -8,7 +8,7 @@
     <% if @room.player_1.present? %>
         <% if @room.player_1 == current_user %>
             <% if @room.player_1_id == @room.who_move %>
-                <b> Player 1 : <%= @room.player_1.email %></b><p>
+                <b> Player 1 : <%= @room.player_1.email %> </b><%= link_to 'End turn', end_turn_path, class: "btn btn-success", remote: true %><p>
             <% else %>
                 <p> Player 1 : <%= @room.player_1.email %>
             <% end %>
@@ -33,7 +33,7 @@
     <% if @room.player_2.present? %>
         <% if @room.player_2 == current_user %>
             <% if @room.player_2_id == @room.who_move %>
-                <b> Player 2 : <%= @room.player_2.email %></b><p>
+                <b> Player 2 : <%= @room.player_2.email %> </b><%= link_to 'End turn', end_turn_path, class: "btn btn-success", remote: true %><p>
             <% else %>
                 <p> Player 2 : <%= @room.player_2.email %><p>
             <% end %>
@@ -72,7 +72,7 @@
       <% if @room.player_3.present? %>
           <% if @room.player_3 == current_user %>
               <% if @room.player_3_id == @room.who_move %>
-                  <b> Player 3 : <%= @room.player_3.email %></b><p>
+                  <b> Player 3 : <%= @room.player_3.email %></b><%= link_to 'End turn', end_turn_path, class: "btn btn-success", remote: true %><p>
               <% else %>
                   <p> Player 3 : <%= @room.player_3.email %><p>
               <% end %>
@@ -97,7 +97,7 @@
       <% if @room.player_4.present? %>
           <% if @room.player_4 == current_user %>
               <% if @room.player_4_id == @room.who_move %>
-                  <b> Player 4 : <%= @room.player_4.email %></b><p>
+                  <b> Player 4 : <%= @room.player_4.email %></b><%= link_to 'End turn', end_turn_path, class: "btn btn-success", remote: true %><p>
               <% else %>
                   <p> Player 4 : <%= @room.player_4.email %><p>
               <% end %>
