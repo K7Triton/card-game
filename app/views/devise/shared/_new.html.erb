@@ -1,12 +1,13 @@
-
-<div class="chat_content">
-  <%  RoomMessage.where(room_id: @room.id).each do |mc| %>
-    <%= mc.user.email %>: <b><%= mc.content %></b><br>
-  <% end %>
-</div>
-<div class="chat">
-  <%= form_for([@room, @room.room_messages.build], remote: true)  do |m| %>
-      <%= m.text_field :content %>
-      <%= m.submit 'Send message', id: 'submitMessage' %>
-  <% end %>
+<div class="chatForm">
+  <div class="chat_content" id="chat_content">
+    <%  RoomMessage.where(room_id: @room.id).each do |mc| %>
+      <%= mc.user.email %>: <b><%= mc.content %></b><br>
+    <% end %>
+  </div>
+  <div class="chat">
+    <%= form_for([@room, @room.room_messages.build], remote: true)  do |m| %>
+        <%= m.text_field :content %>
+        <%= m.submit 'Send message', id: 'submitMessage', :class => 'btn btn-default btn-md' %>
+    <% end %>
+  </div>
 </div>

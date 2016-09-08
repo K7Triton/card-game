@@ -7,3 +7,23 @@
  .error {
    color: red;
  }
+
+
+.chatInRoom{
+  height: 300px;
+  width: 370px;
+  background-color: rgba(187, 187, 187, 0.1);
+  border: solid 1px rgba(52, 158, 12, 0.51);
+}
+
+.chatForm{
+  position:absolute;
+  bottom:1px;
+}
+
+.chat_content{
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto;
+  height: 260px;
+  width: 354px;
+}

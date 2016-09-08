@@ -74,12 +74,12 @@ class RoomsController < ApplicationController
     @room = Room.find_by_id(params[:id])
     if @room.who_move == current_user.id
       rules
-      @room.otboi.push(params[:card].to_i)
-      player_cards.delete_if{ |i| i == params[:card].to_i }
-      @room.save
-      ActionCable.server.broadcast 'room:'+@room.id.to_s,
-                                            move: @room
-      head :ok
+        @room.otboi.push(params[:card].to_i)
+        player_cards.delete_if{ |i| i == params[:card].to_i }
+        @room.save
+        ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                              move: @room
+        head :ok
     else
       #flash[:notice] = 'Wait when player move'
       #redirect_back({fallback_location: request.referer}, flash[:notice] = 'Wait when player move')
@@ -132,6 +132,21 @@ class RoomsController < ApplicationController
   end
 
   def rules
+
+=begin
+#Набросок того коли карта в отбоі 6. Але це не дуже працює.
+    if [1,2,3,4].include? @room.otboi.last
+      if Card.find(params[:card].to_i).card_type != Card.find(@room.otboi.last).card_type
+        flash[:notice] = 'Incorrect type'
+        false
+      else
+        true
+      end
+    else
+      flash[:notice] = 'last is 6'
+    end
+=end
+
     if [9,10,11,12].include? params[:card].to_i
       flash[:notice] = 'Card taken'
     end
@@ -152,7 +167,9 @@ class RoomsController < ApplicationController
       flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
     end
     if [1,2,3,4].include? params[:card].to_i
+
       flash[:notice] = 'Overlap your card'
+
     end
   end
 # Ф-ція взяти карту з банка.

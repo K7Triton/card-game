@@ -1,11 +1,13 @@
-
-<div class="container-fluid" id="carts">
+<div id="carts">
+<div class="col-md-8">
   <div class="room">
     <p>Room #: <%= @room.id %> || Creator:  <%= @room.user.email %>
   </div>
+  <div class="row">
   <% flash.each do |name, msg| -%>
       <%= content_tag :div, msg, class: name %>
   <% end %>
+    </div>
   <div class="row">
   <div class="col-md-6">
     <% if @room.player_1.present? %>
@@ -122,5 +124,10 @@
     </div>
   </div>
 </div>
+</div>
+<div class="col-md-4 chatInRoom" style="margin-top: 50px">
+  <%= render '/devise/shared/new' %>
+</div>
 
-<%= render '/devise/shared/new' %>
+
+
