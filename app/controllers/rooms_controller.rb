@@ -73,13 +73,19 @@ class RoomsController < ApplicationController
   def move
     @room = Room.find_by_id(params[:id])
     if @room.who_move == current_user.id
-      rules
+      if rules
         @room.otboi.push(params[:card].to_i)
         player_cards.delete_if{ |i| i == params[:card].to_i }
         @room.save
         ActionCable.server.broadcast 'room:'+@room.id.to_s,
                                               move: @room
         head :ok
+      else
+        flash[:notice] = 'You cant put this cart'
+        ActionCable.server.broadcast 'room:'+@room.id.to_s,
+                                     move: @room
+        head :ok
+      end
     else
       #flash[:notice] = 'Wait when player move'
       #redirect_back({fallback_location: request.referer}, flash[:notice] = 'Wait when player move')
@@ -131,45 +137,40 @@ class RoomsController < ApplicationController
     end
   end
 
+
+# Ф-ція мозок. Тут перевіряються правила.
+# Опис може скоро буде...бо зараз лінь)
   def rules
+    if  @room.otboi.empty? or (@room.otboi.last / 4.0) % 1 == (params[:card].to_i / 4.0) % 1 or ((@room.otboi.last / 4.0) + 0.25).round == ((params[:card].to_i / 4.0) + 0.25).round
 
-=begin
-#Набросок того коли карта в отбоі 6. Але це не дуже працює.
-    if [1,2,3,4].include? @room.otboi.last
-      if Card.find(params[:card].to_i).card_type != Card.find(@room.otboi.last).card_type
-        flash[:notice] = 'Incorrect type'
-        false
-      else
-        true
-      end
-    else
-      flash[:notice] = 'last is 6'
-    end
-=end
-
-    if [9,10,11,12].include? params[:card].to_i
-      flash[:notice] = 'Card taken'
-    end
-    # Якщо юзер поставив туз
-    if [33,34,35,36].include? params[:card].to_i
-        b = [33,34,35,36].delete_if{ |i| i == params[:card].to_i }
-        @player_tuz = player_cards & b
-        if @player_tuz.empty?
-          end_turn(2)
-        else
-          puts "User have more tuz"
+        if [9,10,11,12].include? params[:card].to_i
+          flash[:notice] = 'Card taken'
         end
-    end
-    if [21,22,23,24].include? params[:card].to_i
-      flash[:notice] = 'Plase choose a suite'
-    end
-    if [5,6,7,8].include? params[:card].to_i
-      flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
-    end
-    if [1,2,3,4].include? params[:card].to_i
+        # Якщо юзер поставив туз
+        if [33,34,35,36].include? params[:card].to_i
+          b = [33,34,35,36].delete_if{ |i| i == params[:card].to_i }
+          @player_tuz = player_cards & b
+          if @player_tuz.empty?
+            end_turn(2)
+          else
+            puts "User have more tuz"
+          end
+        end
+        if [21,22,23,24].include? params[:card].to_i
+          flash[:notice] = 'Plase choose a suite'
+        end
+        if [5,6,7,8].include? params[:card].to_i
+          flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
+        end
+        if [1,2,3,4].include? params[:card].to_i
 
-      flash[:notice] = 'Overlap your card'
+          flash[:notice] = 'Overlap your card'
 
+        end
+
+      true
+    else
+      false
     end
   end
 # Ф-ція взяти карту з банка.
