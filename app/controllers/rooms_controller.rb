@@ -141,10 +141,16 @@ class RoomsController < ApplicationController
 # Ф-ція мозок. Тут перевіряються правила.
 # Опис може скоро буде...бо зараз лінь)
   def rules
-    if  @room.otboi.empty? or (@room.otboi.last / 4.0) % 1 == (params[:card].to_i / 4.0) % 1 or ((@room.otboi.last / 4.0) + 0.25).round == ((params[:card].to_i / 4.0) + 0.25).round
+    if  @room.otboi.empty? or    # Якщо в отбої нема карт. (Коли гра починається)
+        (@room.otboi.last / 4.0) % 1 == (params[:card].to_i / 4.0) % 1 or  # Формула яка перевіряє чи тої ж масці карта яку ставить ігрок що і в отбої
+        ((@room.otboi.last / 4.0) + 0.25).round == ((params[:card].to_i / 4.0) + 0.25).round # Формула яка перевіряє чи карта такого ж значення як та що в отбої
+
+# Після того як ми перевірили те, що юзер може поставити карту бо вона відповідає типу або токого ж значення як та що у отбоі
+# Ми перевіряємо інші правила, чи то туз чи вісімка і т.д
+
 
         if [9,10,11,12].include? params[:card].to_i
-          flash[:notice] = 'Card taken'
+          flash[:notice] = 'You must take a cart'
         end
         # Якщо юзер поставив туз
         if [33,34,35,36].include? params[:card].to_i
