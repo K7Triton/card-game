@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160905071625) do
+ActiveRecord::Schema.define(version: 20160912112916) do
 
   create_table "cards", force: :cascade do |t|
     t.integer "value"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160905071625) do
     t.text     "otboi"
     t.boolean  "start"
     t.integer  "who_move"
+    t.integer  "last_move"
     t.index ["user_id"], name: "index_rooms_on_user_id"
   end
 
