@@ -101,7 +101,7 @@ class RoomsController < ApplicationController
   def end_turn (a=1)
     @room = Room.find_by_id(params[:id])
     players = [@room.player_1_id, @room.player_2_id, @room.player_3_id, @room.player_4_id].compact
-     if @room.who_move == current_user.id
+     if @room.who_move == current_user.id and @room.last_move == current_user.id and not [1,2,3,4].include? @room.otboi.last
           z = players.find_index(current_user.id)
           @room.who_move = if players[z+a] != nil
                              players[z+a]
@@ -174,10 +174,10 @@ end
             end
           end
           if [21,22,23,24].include? params[:card].to_i
-            flash[:notice] = 'Plase choose a suite'
+            flash[:notice] = 'Please choose a suite'
           end
           if [5,6,7,8].include? params[:card].to_i
-            flash[:notice] = 'Take card, if not 7 , take second card and make a turn'
+            flash[:notice] = 'Take card, if not 7, take second card and make a turn'
           end
           # Якщо юзер поствив шістку. Він має її накрити.
           if [1,2,3,4].include? params[:card].to_i
