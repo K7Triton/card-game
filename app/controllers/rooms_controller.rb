@@ -216,8 +216,11 @@ end
 
   def peretysyvatu
     if @room.bank.empty?
-         @room.bank = @room.otboi.shuffle!
-         @room.otboi = nil
+      last_cart = [@room.otboi.last]
+         @room.bank = @room.otboi - last_cart
+         @room.bank.shuffle!
+         @room.otboi = last_cart
+         flash[:notice] = 'Bank peretasovaniy'
     end
   end
 
